@@ -19,7 +19,8 @@ h1 { margin-top: 80px; }
 #text {
     margin-top: 30px;
     font-size: 22px;
-    min-height: 60px;
+    min-height: 80px;
+    padding: 0 20px;
 }
 
 button {
@@ -72,14 +73,9 @@ let messages = [
     "when we first talked...",
     "I didn’t know...",
     "that you would become this important to me.",
-    "",
-    "Rina...",
-    "You are my peace...",
-    "my happiness...",
-    "my favorite notification ❤️",
-    "",
-    "And today...",
-    "I just want to say...",
+
+    "Rina… from the very first moment we started talking at the beginning of February, something felt different. I didn’t realize when you became such an important part of my life. Every little thing reminds me of you, every conversation stays in my mind, and somehow, you’ve become my comfort, my happiness, and my peace. I don’t just like you… I feel something real, something deep. And today, I don’t want to hide it anymore…",
+
     "",
     "I LOVE YOU ❤️",
     "",
@@ -92,14 +88,16 @@ let text = document.getElementById("text");
 function typeWriter(message, callback) {
     let j = 0;
     text.innerHTML = "";
+
     let typing = setInterval(() => {
-        text.innerHTML += message[j];
-        j++;
-        if (j >= message.length) {
+        if (j < message.length) {
+            text.innerHTML += message[j];
+            j++;
+        } else {
             clearInterval(typing);
             setTimeout(callback, 1000);
         }
-    }, 50);
+    }, 35); // speed (lower = slower typing)
 }
 
 function start() {
@@ -124,7 +122,7 @@ function start() {
 function yes() {
     text.innerHTML = "I knew it 😭❤️ You just made me the happiest person alive! 💍✨";
 
-    for (let k = 0; k < 100; k++) {
+    for (let k = 0; k < 120; k++) {
         let heart = document.createElement("div");
         heart.className = "heart";
         heart.innerHTML = "❤️";
