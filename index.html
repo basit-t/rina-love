@@ -109,74 +109,67 @@ let messages = [
 let i = 0;
 let text = document.getElementById("text");
 
+// Typing animation (slower + readable)
 function typeWriter(message, callback) {
     let j = 0;
     text.innerHTML = "";
-
     let typing = setInterval(() => {
         if (j < message.length) {
             text.innerHTML += message.charAt(j);
             j++;
         } else {
             clearInterval(typing);
-            setTimeout(callback, 2000);
+            setTimeout(callback, 2000); // pause to read
         }
     }, 55);
 }
 
+// Start button
 function start() {
     document.getElementById("music").play();
-
     function nextMessage() {
         if (i < messages.length) {
-            typeWriter(messages[i], () => {
-                i++;
-                nextMessage();
-            });
+            typeWriter(messages[i], () => { i++; nextMessage(); });
         } else {
             text.innerHTML = "Will you be mine forever? 💍❤️";
             document.getElementById("choice").style.display = "block";
         }
     }
-
     nextMessage();
 }
 
+// YES button → Celebration, glowing name, gradient, confetti + hearts
 function yesClicked() {
     document.body.classList.add("romantic-bg");
 
     text.innerHTML = "<span class='glow'>Rina ❤️ You just made me the happiest person alive 💍✨</span>";
 
-    for (let k = 0; k < 150; k++) {
+    for (let k = 0; k < 200; k++) {
         let el = document.createElement("div");
         el.className = Math.random() > 0.5 ? "heart" : "confetti";
         el.innerHTML = Math.random() > 0.5 ? "❤️" : "✨";
-
         el.style.left = Math.random() * 100 + "vw";
         el.style.fontSize = (Math.random() * 20 + 10) + "px";
-
         document.body.appendChild(el);
-
         setTimeout(() => el.remove(), 5000);
     }
 }
 
+// NO button runs away
 function moveNo() {
     let btn = document.getElementById("noBtn");
     btn.style.top = Math.random() * 80 + "vh";
     btn.style.left = Math.random() * 80 + "vw";
 }
 
+// Continuous floating hearts
 setInterval(() => {
     let heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "❤️";
-
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.fontSize = (Math.random() * 20 + 10) + "px";
-
     document.body.appendChild(heart);
-
     setTimeout(() => heart.remove(), 5000);
 }, 600);
 </script>
