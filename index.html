@@ -5,67 +5,64 @@
 <title>For Rina ❤️</title>
 
 <style>
-body{
-    margin:0;
-    background:black;
-    color:white;
-    font-family:'Courier New',monospace;
-    text-align:center;
-    overflow:hidden;
+body {
+    margin: 0;
+    background: black;
+    color: white;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    overflow: hidden;
+    transition: background 2s ease;
 }
 
-h1{
-    margin-top:80px;
+.romantic-bg {
+    background: linear-gradient(135deg, #ff4e50, #ff758c, #ff7eb3);
 }
 
-#text{
-    margin-top:30px;
-    font-size:22px;
-    min-height:100px;
-    padding:0 25px;
-    line-height:1.6;
+h1 {
+    margin-top: 80px;
 }
 
-button{
-    padding:12px 25px;
-    font-size:18px;
-    margin:15px;
-    cursor:pointer;
-    border:none;
-    border-radius:10px;
-    transition:0.3s;
+#text {
+    margin-top: 30px;
+    font-size: 22px;
+    min-height: 120px;
+    padding: 0 30px;
+    line-height: 1.6;
 }
 
-button:hover{
-    transform:scale(1.05);
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    margin: 15px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
 }
 
-#yesBtn{
-    background:#16a34a;
-    color:white;
+#yesBtn { background: green; color: white; }
+#noBtn { background: red; color: white; position: absolute; }
+
+.glow {
+    font-size: 28px;
+    color: white;
+    text-shadow: 0 0 10px pink, 0 0 20px red, 0 0 30px hotpink;
+    animation: glowAnim 1.5s infinite alternate;
 }
 
-#noBtn{
-    background:#dc2626;
-    color:white;
-    position:absolute;
+@keyframes glowAnim {
+    from { text-shadow: 0 0 10px pink; }
+    to { text-shadow: 0 0 25px red; }
 }
 
-.heart{
-    position:absolute;
-    color:red;
-    animation:float 5s linear infinite;
+.heart, .confetti {
+    position: absolute;
+    animation: float 5s linear infinite;
 }
 
-@keyframes float{
-    0%{
-        transform:translateY(100vh);
-        opacity:1;
-    }
-    100%{
-        transform:translateY(-10vh);
-        opacity:0;
-    }
+@keyframes float {
+    0% { transform: translateY(100vh); opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
 }
 </style>
 </head>
@@ -73,14 +70,14 @@ button:hover{
 <body>
 
 <h1>Hey Rina ❤️</h1>
-<p>(Or should I say... Mrs Basit)</p>
+<p>(Or should I say… Mrs Basit?)</p>
 
-<button id="startBtn" onclick="start()">Click Me</button>
+<button onclick="start()">Click Me</button>
 
 <h2 id="text"></h2>
 
 <div id="choice" style="display:none;">
-    <button id="yesBtn" onclick="yes()">YES ❤️</button>
+    <button id="yesBtn" onclick="yesClicked()">YES ❤️</button>
     <button id="noBtn" onmouseover="moveNo()">NO 😜</button>
 </div>
 
@@ -89,99 +86,99 @@ button:hover{
 </audio>
 
 <script>
-const messages = [
-"From the start of February...",
-"When we first talked...",
-"I didn't know...",
-"That you would become this important to me.",
+let messages = [
+    "From the start of February...",
+    "when we first talked...",
+    "I didn’t know...",
+    "that you would become this important to me...",
 
-"Rina, from the very first moment we started talking, something felt different. I didn't realize when you slowly became such an important part of my life. Every conversation with you stays in my mind, every moment feels special, and somehow you became my comfort, my happiness, and my peace.",
+    "Rina… from the very first moment we started talking, something about you felt different. Slowly, without realizing it, you became part of my thoughts, my days, my happiness. Every small thing reminds me of you, every conversation stays with me. You became my peace, my comfort, and the most beautiful part of my life.",
 
-"I don't just like you...",
-"I truly love you ❤️",
+    "Sometimes I think about how naturally everything changed… how you became someone I can’t imagine my days without. And honestly… I don’t even want to imagine a life where you’re not there.",
 
-"So tell me honestly..."
+    "I don’t just like you...",
+    "I feel something real...",
+    "something deep...",
+
+    "I LOVE YOU ENDLESSLY </3 ❤️",
+    "And I truly mean it...",
+
+    "So tell me honestly..."
 ];
 
 let i = 0;
 let text = document.getElementById("text");
-let started = false;
 
-function typeWriter(message, callback){
-    let index = 0;
+function typeWriter(message, callback) {
+    let j = 0;
     text.innerHTML = "";
 
-    let typing = setInterval(()=>{
-        if(index < message.length){
-            text.innerHTML += message.charAt(index);
-            index++;
-        }else{
+    let typing = setInterval(() => {
+        if (j < message.length) {
+            text.innerHTML += message.charAt(j);
+            j++;
+        } else {
             clearInterval(typing);
-            setTimeout(callback,900);
+            setTimeout(callback, 2000);
         }
-    },35);
+    }, 55);
 }
 
-function start(){
-    if(started) return;
-    started = true;
+function start() {
+    document.getElementById("music").play();
 
-    document.getElementById("startBtn").style.display="none";
-
-    document.getElementById("music").play().catch(()=>{});
-
-    function next(){
-        if(i < messages.length){
-            typeWriter(messages[i],()=>{
+    function nextMessage() {
+        if (i < messages.length) {
+            typeWriter(messages[i], () => {
                 i++;
-                next();
+                nextMessage();
             });
-        }else{
+        } else {
             text.innerHTML = "Will you be mine forever? 💍❤️";
-            document.getElementById("choice").style.display="block";
-            placeNoButton();
+            document.getElementById("choice").style.display = "block";
         }
     }
 
-    next();
+    nextMessage();
 }
 
-function yes(){
-    text.innerHTML = "You just made me the happiest person alive ❤️✨";
+function yesClicked() {
+    document.body.classList.add("romantic-bg");
 
-    for(let k=0;k<150;k++){
-        createHeart();
+    text.innerHTML = "<span class='glow'>Rina ❤️ You just made me the happiest person alive 💍✨</span>";
+
+    for (let k = 0; k < 150; k++) {
+        let el = document.createElement("div");
+        el.className = Math.random() > 0.5 ? "heart" : "confetti";
+        el.innerHTML = Math.random() > 0.5 ? "❤️" : "✨";
+
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.fontSize = (Math.random() * 20 + 10) + "px";
+
+        document.body.appendChild(el);
+
+        setTimeout(() => el.remove(), 5000);
     }
 }
 
-function moveNo(){
-    placeNoButton();
+function moveNo() {
+    let btn = document.getElementById("noBtn");
+    btn.style.top = Math.random() * 80 + "vh";
+    btn.style.left = Math.random() * 80 + "vw";
 }
 
-function placeNoButton(){
-    const btn = document.getElementById("noBtn");
-    btn.style.top = Math.random()*70 + "vh";
-    btn.style.left = Math.random()*80 + "vw";
-}
-
-function createHeart(){
+setInterval(() => {
     let heart = document.createElement("div");
-    heart.className="heart";
-    heart.innerHTML="❤️";
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
 
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(Math.random()*20+12)+"px";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
 
     document.body.appendChild(heart);
 
-    setTimeout(()=>{
-        heart.remove();
-    },5000);
-}
-
-setInterval(()=>{
-    createHeart();
-},500);
+    setTimeout(() => heart.remove(), 5000);
+}, 600);
 </script>
 
 </body>
